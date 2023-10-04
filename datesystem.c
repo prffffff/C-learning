@@ -10,7 +10,7 @@ char *weekday [15]={"日","一","二","三","四","五","六"};
 //设置万年历的边框 
 void boundary()
 {
-	printf("-----------------------------------------------------");
+	printf("-----------------------------------------------------\n");
 }
 
 //设置万年历的边框 
@@ -59,7 +59,7 @@ int daysum(int year,int month)
  } 
  
  //打印日历
- int calendar(int sum,int month,int year)
+int calendar(int sum,int month,int year,int day)
  {
  	int i,x,y = 0;//x求日历上个月遗留的天数
 	x = sum % 7;
@@ -73,18 +73,33 @@ int daysum(int year,int month)
 	{
 		for (i = 1; i <= run[month -1] ;i ++) 
 		{
-			printf("%d\t",i);
+			if (i == day)
+			{
+				printf("*%d\t",i);
+			}
+			else
+			{
+				printf("%d\t",i);
+			}
 			if ( i == y ||(i - y )% 7 ==0)//每周换行 
 			{
 				printf("\n");
 			}
 		}
+	printf("\n");
 	}
 	else 
 	{
 		for (i = 1;i <= ping[month -1];i ++)
 		{
-			printf("%d\t",i);
+			if (i == day)
+			{
+				printf("*%d\t",i);
+			}
+			else
+			{
+				printf("%d\t",i);
+			}
 				if ( i == y ||(i - y )% 7 ==0)//每周换行 
 			{
 				printf("\n");
@@ -95,15 +110,49 @@ int daysum(int year,int month)
 	
  	
   } 
+
+
  //主代码 
 int main()
 {
 	int year,month,day;
-	printf("请输入年，月，日：");
-	scanf("%d %d %d",&year,&month,&day) ;
-	title();
-	int sum = daysum(year,month);
-	calendar(sum,month,year);
-	boundary();
+	printf("请输入年 月 日：");
+	//实现重复输入 
+	for (;;)
+	{
+        scanf("%d %d %d",&year,&month,&day) ;
+		//printf("%d",year);
+		//判断输入数据的正误 
+		if (year <1900 || year >19000)
+		{
+			printf("请输入正确的年份（1900~19000）");
+		}
+		else if(month < 1||month > 12)
+		{ 
+			printf("请输入正确的月份（1~12）");
+		}
+		else if(year % 4 == 0 &&day > run[month])
+		{
+			printf("请输入正确的日期");
+		}
+		else if(year % 4 != 0 && day >ping[month])
+		{
+			printf("请输入正确的日期");
+		}
+		else if(day < 0)
+		{
+			printf("请输入正确的日期");
+		}
+		else
+		{
+		    title();
+	        int sum = daysum(year,month);
+	        calendar(sum,month,year,day);
+	        boundary();
+		}
+		printf("\n请输入年 月 日：");
+    } 
+	    
+	
 	return 0;
 }
