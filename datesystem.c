@@ -14,10 +14,11 @@ void boundary()
 }
 
 //设置万年历的边框 
-void title()
+void title(int year, int month,int day)
 {
 	int i ;
 	printf("\t\t\t万 年 历\t\t\t\n");
+	printf("\t\t   %d年%d月%d日\n",year,month,day);
 	boundary();
 	printf("\n");
 	for ( i = 0; i < 7;i ++)
@@ -145,7 +146,7 @@ int main()
 		}
 		else
 		{
-		    title();
+		    title(year,month,day);
 	        int sum = daysum(year,month);
 	        calendar(sum,month,year,day);
 	        boundary();
