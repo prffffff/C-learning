@@ -248,6 +248,19 @@ void deletebyphone(LPLIST list,const char *phone)
 		printf("删除成功\n");
 	}
  } 
+ 
+//通讯录实际容量
+int num(LPNODE list)
+{
+	LPNODE pmove = list;
+	int i = 0 ;
+	while(pmove->next != NULL)
+	{
+		pmove=pmove->next ;
+		i++;
+	}
+	return i;
+ } 
 //菜单页面
 void menu()
 {
@@ -275,6 +288,18 @@ void menu()
 		return -1; 
 	}
 	//printf("4");
+	//打开文件传入数据 
+	/*FILE *fp;
+	int i ;
+	if(fp = fopen("用户数据.txt","a+") == NULL)
+	{
+		printf("文件打开失败");
+		return 0;
+	}
+	for( i = 0 ; i < 50 ; i++)
+	{
+		fread(&list,sizeof(List),1,fp);
+	}	*/ 
  	//printf("5");
  	int op;
     //printf("6");
@@ -376,6 +401,19 @@ void menu()
 		menu();
 	}
     }
+    //将用户输入数据传入文件保管
+    /*int cnt = num(list);
+    for (i = 0;i < cnt; i++)
+    {
+    	fwrite(&list,sizeof(List),1,fp);
+	}*/
+	/*LPNODE pmove = list->next ;
+	while (pmove != NULL)
+	{
+		fwrite(pmove,sizeof(List),1,fp);
+		pmove = pmove->next ;
+	 } */
+	/*fclose(fp);*/ 
     deletelist(list);
     
 	return 0;
