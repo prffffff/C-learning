@@ -6,18 +6,19 @@
 
 //创建链表 
 typedef struct  list{
-	char name[100];
+	char name[100];//设置数组存入字符串 
 	char phone[100];//国内手机号有11位，int类型最大只有10位 
 	char relationship[100];
 	struct list *next;
-}List,*LPNODE,*LPLIST;
+}List,*LPNODE,*LPLIST;//重命名结构体以及结构体指针 
 
 //创建链表表头 
 LPNODE createHead()
 {
-	LPNODE headNode = (LPNODE)malloc(sizeof(List));
-	if (headNode == NULL)
+	LPNODE headNode = (LPNODE)malloc(sizeof(List));//为头指针动态分配内存 
+	if (headNode == NULL)//判断内存是否分配成功 
 		return NULL; 
+	//头指针不存入有效数据 
 	strcpy_s(headNode->name,sizeof(headNode->name )  ,"");
 	strcpy_s(headNode->phone ,sizeof(headNode->phone ),"");
 	strcpy_s(headNode->relationship,sizeof(headNode->relationship) ,"");
@@ -37,6 +38,7 @@ LPNODE NODE(LPLIST list)
 void printList(LPLIST list)
 {
 	LPNODE pmove = list->next ;
+	//遍历链表指针 
 	while (pmove != NULL)
 	{
 		printf("%s\t%s\t%s\n",pmove->name ,pmove->phone,pmove->relationship );
@@ -47,7 +49,6 @@ void printList(LPLIST list)
 //增加函数（插入节点） 
 void add(LPLIST list)
 {
-	//把联系人的信息变成一个节点
 	bool flag = true; // 添加标志位
 	LPNODE newNode = list;
 	if(newNode == NULL)
@@ -59,6 +60,7 @@ void add(LPLIST list)
 	  LPNODE newNode = (LPNODE)malloc(sizeof(List));
 	  printf("请输入姓名，手机号，关系：");
 	  scanf("%s %s %s",newNode->name ,newNode->phone ,newNode->relationship );
+	  //将节点接入链表，先接后断 
 	  newNode->next = list->next ;
 	  list->next = newNode; 
       // 用户输入特定字符或数字时跳出循环
@@ -110,7 +112,7 @@ void deletelist(LPLIST list)
  } */
  
  //查询函数
-LPNODE research(LPLIST list,const char *posname)
+LPNODE researchname(LPLIST list,const char *posname)
 {
 	LPNODE pmove = list->next;
 	while (pmove != NULL && strcmp(pmove->name,posname) != 0)
@@ -130,6 +132,48 @@ LPNODE research(LPLIST list,const char *posname)
 	    printf("%s\t%s\t%s\n",pmove->name ,pmove->phone,pmove->relationship );
 	}
  } 
+ 
+LPNODE researchphone(LPLIST list,const char *posphone)
+{
+	LPNODE pmove = list->next;
+	while (pmove != NULL && strcmp(pmove->phone ,posphone) != 0)
+	{
+		pmove = pmove->next;
+		//int i = 0;
+		//printf("%d",i);
+		//i++;
+	}
+	if (pmove ==NULL)
+	{
+		printf("抱歉，没有查到关于此信息的联系人");
+	}
+	else
+	{
+		printf("姓名\t手机号\t关系\n");
+	    printf("%s\t%s\t%s\n",pmove->name ,pmove->phone,pmove->relationship );
+	}
+ } 
+ 
+LPNODE researchrelationship(LPLIST list,const char *relationship)
+{
+	LPNODE pmove = list->next;
+	while (pmove != NULL && strcmp(pmove->relationship ,relationship) != 0)
+	{
+		pmove = pmove->next;
+		//int i = 0;
+		//printf("%d",i);
+		//i++;
+	}
+	if (pmove ==NULL)
+	{
+		printf("抱歉，没有查到关于此信息的联系人");
+	}
+	else
+	{
+		printf("姓名\t手机号\t关系\n");
+	    printf("%s\t%s\t%s\n",pmove->name ,pmove->phone,pmove->relationship );
+	}
+ }  
 //修改函数
 void modify(LPLIST list,const char *posname)
 {
@@ -202,11 +246,11 @@ void deletebyname(LPLIST list,const char *posname)
  } 
  
  //根据手机号删除
-void deletebyphone(LPLIST list,const char *phone)
+void deletebyphone(LPLIST list,const char *posphone)
 {
 	LPNODE preNode = list;
 	LPNODE posNode = list->next;
-	while(posNode != NULL&&strcmp(posNode->name ,phone))//若寻找到匹配姓名，则输出0 
+	while(posNode != NULL&&strcmp(posNode->phone  ,posphone))//若寻找到匹配姓名，则输出0 
 	{
 		preNode = posNode;
 		posNode = posNode->next;
@@ -369,19 +413,19 @@ void menu()
 			printf("请输入姓名：");
 			char posname[100];
 			scanf("%s",posname);
-	        research(list,posname);
+	        researchname(list,posname);
 			}
 		else if ( a == 2){
 		    printf("请输入手机号：");
 		    char posphone[100];
 			scanf("%s",posphone);
-		    research(list,posphone);
+		    researchphone(list,posphone);
 			}
 		else if ( a == 3){
 			printf("请输入关系：");
 			char posrelationship[100];
 			scanf("%s",posrelationship);
-		    research(list,posrelationship);
+		    researchrelationship(list,posrelationship);
 			}
 		else{
 			printf("你输入的信息有误！\n");
